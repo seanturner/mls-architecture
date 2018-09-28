@@ -44,8 +44,6 @@ author:
     email: alan@wire.com
 
 informative:
-  RFC2119:
-
   MLSPROTO:
        title: "Messaging Layer Security Protocol"
        date: 2018
@@ -110,9 +108,9 @@ such as XMPP {{?RFC3920}}. In addition, it does not specify a complete
 wire encoding, but rather a set of abstract data structures which
 can then be mapped onto a variety of concrete encodings, such as
 TLS {{?I-D.ietf-tls-tls13}}, CBOR {{?RFC7049}}, and JSON {{?RFC7159}}.
-Implementations which adopt compatible encodings should be able to
-have some degree of interoperability at the message level, though
-they may have incompatible identity/authentication infrastructures.
+Implementations which adopt compatible encodings have some degree of
+interoperability at the message level, though they may have incompatible
+identity/authentication infrastructures.
 
 This document is intended to describe the overall messaging
 system architecture which the MLS protocol fits into, and the
@@ -236,7 +234,7 @@ one phone with another), the formal definition of a Group in MLS
 is the set of Clients that has legitimate knowledge of the shared (Encryption)
 Group Key established in the group key establishment phase of the protocol.
 
-In some messaging systems, Clients belonging to the same Member must
+In some messaging systems, Clients belonging to the same Member
 all share the same identity key pair, but MLS does not assume this.
 The MLS architecture considers the more general case and allows for
 important use cases, such as a Member adding a new Client when all their
@@ -327,9 +325,8 @@ Specifically, we assume that DSs provide:
   and in approximately the order in which they are sent
   by Clients. The latter is an approximate guarantee because
   multiple Clients may send messages at the same time
-  and so the DS needs some latitude in reordering between Clients.
 
-* Consistent ordering: the DS must ensure that all Clients
+* Consistent ordering: the DS ensures that all Clients
   have the same view of message ordering.
 
 Note that the DS may provide ordering guarantees by ensuring
@@ -384,7 +381,7 @@ a matter of local policy.
 
 MLS is designed as a large scale group messaging protocol and hence aims to
 provide performance and safety to its users.  Messaging systems that implement
-MLS must provide support for conversations involving two or more participants,
+MLS provide support for conversations involving two or more participants,
 and aim to scale to approximately 50,000 clients, typically including many
 Members using multiple devices.
 
@@ -392,16 +389,16 @@ Members using multiple devices.
 
 No operation in MLS should require two distinct users to be online
 simultaneously. In particular, clients participating in conversations protected
-using MLS must be able to update shared keys, add or remove new members, and
+using MLS can update shared keys, add or remove new members, and
 send messages and attachments without waiting for another user's reply.
 
-Messaging systems that implement MLS must provide a transport layer for
+Messaging systems that implement MLS provide a transport layer for
 delivering messages asynchronously and reliably.
 
 ### Recovery After State Loss
 
 Conversation participants whose local MLS state is lost or corrupted
-must be able to reinitialize their state and continue participating
+need to reinitialize their state and continue participating
 in the conversation. This may entail some level of message loss, but
 should not result in permanent exclusion from the group.
 
@@ -424,7 +421,7 @@ are made about the format of the payload.
 ### Privacy
 
 The protocol is designed in a way that limits the server-side (AS and DS)
-metadata footprint. The DS must only persist data required for the delivery
+metadata footprint. The DS only persists data required for the delivery
 of messages and avoid Personally Identifiable Information (PII) or other
 sensitive metadata wherever possible. A Messaging Service provider that has
 control over both the AS and the DS, will not be able to correlate encrypted
@@ -441,11 +438,11 @@ federated systems.
 ### Compatibility with future versions of MLS
 
 It is important the multiple versions of MLS be able to coexist in the future.
-Thus, MLS must offer a version negotiation mechanism; this mechanism must prevent
+Thus, MLS offers a version negotiation mechanism; this mechanism prevents
 version downgrade attacks where an attacker would actively rewrite messages
 messages with a lower protocol version than the ones originally offered by
 the endpoints. When multiple versions of MLS are available, the negotiation
-protocol must guarantee that the version agreed upon will be the highest version
+protocol guarantees that the version agreed upon will be the highest version
 supported in common by the group.
 
 ## Security Requirements
@@ -477,8 +474,7 @@ even in the context of an active adversary as described in the threat model.
 
 Message Integrity and Authentication mean that an honest Client should only
 accept a message if it was sent by a group member and that one Client
-must not be able to send a message which other Clients accept
-as being from another Client.
+cannot  send a message which other Clients accept as being from another Client.
 
 A corollary to this statement is that the AS
 and the DS can't read the content of messages sent between Members as
@@ -640,6 +636,10 @@ then one will be able to impersonate another.
 
 Finally, Clients should not be able to perform denial of
 service attacks {{denial-of-service}}.
+
+# IANA Considerations
+
+This document makes no requests of IANA.
 
 # Contributors
 
